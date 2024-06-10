@@ -3,7 +3,10 @@
   "version": "0.1.0",
   "description": "A basic CMS built in JavaScript",
   "main": "index.js",
-  "scripts": {},
+  "scripts": {
+    "dev": "node --env-file=.env --watch -r ts-node/register src/index.ts",
+    "build": "tsc"
+  },
   "keywords": [],
   "author": "intechgration.io",
   "license": "ISC",
