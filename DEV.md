@@ -24,3 +24,5 @@ You can run `node --version` to check your version.
   - You can also check about the security (before installing): `npq i typescript`
 - Initialize TypeScript
   - `npx tsc --init` (create `tsconfig.json`)
+- Install SQLite3 dep
+  - `npm install sqlite3`
