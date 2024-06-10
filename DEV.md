@@ -18,3 +18,7 @@ You can run `node --version` to check your version.
 
 - Initialize an npm project (create a `package.json`)
 - `npm init -y`
+- Install dependencies:
+  - `npm i -D typescript ts-node @types/node`
+  - Review npm packages: `npm view typescript` or `npm view ts-node description`
+  - You can also check about the security (before installing): `npq i typescript`
