@@ -1,0 +1,11 @@
+{
+  "name": "build-a-cms-2024",
+  "version": "0.1.0",
+  "description": "A basic CMS built in JavaScript",
+  "main": "index.js",
+  "scripts": {
+  },
+  "keywords": [],
+  "author": "intechgration.io",
+  "license": "ISC"
+}
