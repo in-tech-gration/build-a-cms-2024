@@ -1,9 +1,8 @@
 const sqlite3 = require('sqlite3').verbose();
 const db = new sqlite3.Database("src/db/cms.db", onDBInit);
 
-// Parameter 'error' implicitly has an 'any' type.ts(7006)
-// @ts-ignore
-function onDBInit(error){
+
+function onDBInit(error:Error){
   if ( error ){
     return console.log("Problem while opening the DB:", error);
   }

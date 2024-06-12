@@ -13,8 +13,7 @@ function populateTable(){
 }
 function readTable(){
     // TODO: Replace any with appropriate types:
-  // Parameter 'err' implicitly has an 'any' type.ts(7006)
-  function runForEachRow(err:any,row:any){
+  function runForEachRow(err:Error,row:any){
     if ( err ){
       return console.log("Something wrong happened: ", err);
     }
@@ -29,7 +28,7 @@ function runSerialized(){
   // SELECT Table => Exists?
   // db.run("SELECT * FROM TableX"); // => SQLITE_ERROR: no such table: TableX
   
-  db.run("CREATE TABLE lorem (info TEXT)", (error:any) =>{
+  db.run("CREATE TABLE lorem (info TEXT)", (error:Error) =>{
     if ( error ){
       return console.log("SQL error", error.message);
     }
