@@ -26,3 +26,8 @@
     - `npx tsc --init` (create `tsconfig.json`)
   - Install SQLite3 dep
     - `npm install sqlite3`
+
+# Working on DB Module  
+
+  - Copied and pasted the basic sqlite3 boilerpate
+  - ...and tested: `ts-node src/db/db.ts`
