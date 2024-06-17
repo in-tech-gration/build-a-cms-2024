@@ -1,21 +1,9 @@
-// import * as http from "http";
-import http from "node:http"; // In production, switch to https
-import url from "node:url";
-import { IncomingMessage, ServerResponse } from "node:http";
+// Responsibility of the "connector":
+// 1) Load all the appropriate modules
+import webInit from "./web/web"
+import dbInit from "./db/db";
+// 2) Start them up in the appropriate order
+dbInit( webInit );
 
-function handleRequest( req:IncomingMessage, res:ServerResponse ){
-  // Handle requests: handle the / (home) and the /admin (domain.com, domain.com/admin/)
-  if ( typeof req.url === "undefined" ){
-    return res.end("Something...");
-  }
-  const { pathname } = url.parse(req.url);
-  if ( pathname === "/" ){
-    return res.end("Home");
-  }
-  return res.end("Login");
-} 
-const server = http.createServer(handleRequest);
+// Start DB first, make sure that it's up and running, then connect DB to the web server and then start listening
 
-server.listen(process.env.PORT, ()=>{
-  console.log(`Server is running on http://localhost:${process.env.PORT}`);
-})
