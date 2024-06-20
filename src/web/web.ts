@@ -7,7 +7,6 @@ const user = require("../../frontend/user")
 const home = require("../../frontend/home")
 import { User } from "../types/types";
 
-
 function onResponse(res: ServerResponse, markup: HTMLAllCollection) {
   res.statusCode = 200;
   res.setHeader('Content-Type', 'text/html');
@@ -22,8 +21,6 @@ function userId(url: string) {
   }
   return user_id
 }
-
-
 
 export default function webInit(db: Database) {
 
