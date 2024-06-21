@@ -14,7 +14,6 @@ function onResponse(res: ServerResponse, markup: string) {
   res.setHeader('Content-Type', 'text/html');
   return res.end(markup);
 }
-
 function userId(url: string) {
   const searchParams = new URLSearchParams(url);
   let user_id = ""
