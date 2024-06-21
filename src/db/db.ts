@@ -18,21 +18,21 @@ export default function dbInit( cb:any ){
         )
       `)
 
-      // db.run(`
-      //   INSERT INTO Users (
-      //     user_id,
-      //     username,
-      //     email,
-      //     password,
-      //     role
-      //   ) VALUES (
-      //    101,
-      //    "Charles Babbage",
-      //    "charles@babbage.com",
-      //    "ada_help_me_please",
-      //    "admin"
-      //   )
-      // `)
+      db.run(`
+        INSERT OR IGNORE INTO Users (
+          user_id,
+          username,
+          email,
+          password,
+          role
+        ) VALUES (
+         102,
+         "Claude Shannon",
+         "claude@net.com",
+         "I like to juggle",
+         "admin"
+        )
+      `)
   
       db.run(`
         CREATE TABLE 

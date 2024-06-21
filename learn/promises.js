@@ -244,3 +244,7 @@ all.then( aggregatedData =>{
   // Result of promise12b ALWAYS in aggregatedData[1]
   // Result of promise12c ALWAYS in aggregatedData[2]
 }).catch();
+
+// Continue from here: Let's talk about async/await
+// - Should we await for Promise.all()?
+// - What about const promise2e = new Promise(async ()=>{})?
