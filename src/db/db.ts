@@ -33,15 +33,14 @@ export default function dbInit( cb:any ){
          "admin"
         )
       `)
-  
       db.run(`
         CREATE TABLE 
         IF NOT EXISTS Posts 
         (
           post_id INTEGER PRIMARY KEY,
-          user_id INTEGER,
-          title TEXT,
-          content TEXT,
+          user_id INTEGER NOT NULL,
+          title TEXT NOT NULL,
+          content TEXT NOT NULL,
           created DATE,
           updated DATE,
           FOREIGN KEY (user_id) REFERENCES Users(user_id)

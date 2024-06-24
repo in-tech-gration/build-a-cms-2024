@@ -9,11 +9,25 @@
 <body>
   <h1>Create a Blog Post</h1>
   <h2>Amazing pages!</h2>
-  <form>
+
+  <form method="POST">
+
+  <!-- <form method="POST" action="/save"> -->
+  <!-- POST REQUEST: http://localhost:3000/save PAYLOAD: title=Title&content=Content -->
+
+  <!-- <form> -->
+  <!-- <form method="GET" action="/create"> DEFAULT:GET -->
+  <!-- GET REQUEST: http://localhost:3000/create?title=Title&content=Content  name=value -->
+
     <p>
       <label>
         Blog Post Title
         <input name="title" placeholder="Enter post title..." />
+      </label>
+      <label>
+        Author
+        <input data-name="author" placeholder="Enter author name..." />
+        <!-- Form elements that do not have a 'name' attribute set will be ignored and not sent to the web server -->
       </label>
     </p>
     <p>
@@ -29,6 +43,7 @@
   <script>
     const h2 = document.querySelector("h2");
     h2.textContent += "!!!";
+    console.log("Client side logs");
   </script>
 </body>
 </html>
