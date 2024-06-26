@@ -20,10 +20,6 @@ function userId(url: string) {
   return user_id
 }
 
-
-
-
-
 export default function webInit(db: Database) {
 
   function handleRequest(req: IncomingMessage, res: ServerResponse) {
@@ -41,21 +37,7 @@ export default function webInit(db: Database) {
 
     // HANDLE / ROUTE
     if (pathname === "/") {
-      return (homeController(res))
-      
-      // const id = userId(req.url)
-      // // Get some data from the DB and display it:
-      // return db.get(`SELECT username,email,role FROM Users WHERE user_id=${id}`,
-      //   (err: Error, row: undefined | User) => {
-      //     if (err || !row) {
-      //       console.log("Not found");
-      //       return res.end("Not found");
-      //     }
-      //     const { username, email, role } = row;
-      //     console.log(id, username, email, role);
-
-      //   }
-      // )
+      return homeController(res);
     }
 
     // HANDLE /user/:id ROUTE
