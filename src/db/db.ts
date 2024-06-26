@@ -26,10 +26,10 @@ export default function dbInit( cb:any ){
           password,
           role
         ) VALUES (
-         102,
-         "Claude Shannon",
-         "claude@net.com",
-         "I like to juggle",
+         103,
+         "admin",
+         "admin",
+         "admin",
          "admin"
         )
       `)

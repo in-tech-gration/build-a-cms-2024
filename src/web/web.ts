@@ -8,6 +8,7 @@ const postController = require("../controllers/postController")
 const createPostController = require("../controllers/createPostController")
 const errorController = require("../controllers/errorController")
 const homeController = require("../controllers/homeController")
+import qs from "node:querystring";
 // import { User } from "../types/types";
 
 
@@ -54,16 +55,74 @@ export default function webInit(db: Database) {
       return postController(pathname,res,db);
     }
     
-    // 🚧 HANDLE /user/:id ROUTE (PROTECTED)
+    // 🚧 HANDLE /user/:id ROUTE (PROTECTED) [GET+POST]
     if (typeof pathname === "string" && pathname.startsWith(`/user`) ){
-      return res.end("PROTECTED");
-      return userController(pathname,res);
+      // "admin" : "1234"
+      // HANDLE GET:
+      if ( req.method === "GET" ){
+
+        // Display a login page, email+password
+        res.writeHead(200,{
+          "Content-Type": "text/html"
+        })
+        res.end(`
+          <style>html { color-scheme: dark; }</style>
+          <form method="POST">
+            <input name="email" placeholder="Enter email">
+            <input name="password" placeholder="Enter password" type="text">
+            <button>Login</button>
+          </form>
+        `);
+
+        return;
+
+      }
+      // HANDLE POST:
+      let data = "";
+      req.on("data", chunk =>{
+        // console.log({ chunk });
+        data += chunk;
+      });
+      req.on("end", ()=>{
+        // console.log({ data }); // "admin=whatever&password=whatever"
+        const parsedData = qs.parse(data);
+        // console.log({ parsedData });
+        // console.log( parsedData.email, parsedData.password );
+        // TODO: Checking user email + password, against our DB
+        // 1) db.get() => SELECT password FROM Users WHERE email=parsedData.email
+        // 2) Database will give us "charles_made_me_do_this"
+        // 3) Compare parsedData.password == "charles_made_me_do_this"
+        // 4) Get the user's data from the Database (email, username, role, etc.)
+        // charles_made_me_do_this
+        const sql = `SELECT * FROM Users WHERE email="${parsedData.email}"`;
+        // console.log("Let's xray the SQL:", sql); 
+        db.get(sql, (err:Error,row:any)=>{
+          if ( err || !row ){
+            console.log(err);
+            return res.end("Something went wrong");
+          }
+          // console.log({ row });
+          if ( parsedData.email === row.email && parsedData.password === row.password ){
+            // Display the user data
+            return res.end(`Logged in as ${row.username} (role:${row.role})`);
+          }
+          res.end("Wrong credentials");
+        });
+
+      });
+      
+      // email+password => Is the user authenticated?
+      // Yes => redirect to the page (userController)
+      // No => No accesss
+      
+      return; 
+      // return userController(pathname,res);
     }
 
     // 🚧 HANDLE /create ROUTE (Displaying the form) (PROTECTED)
     if (typeof pathname === "string" && pathname.startsWith("/create" )){
       return res.end("PROTECTED");
-      
+
       // HANDLE POST /create
       if ( req.method === "POST"){
         return createPostController(req,res,db);
