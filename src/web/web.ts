@@ -20,6 +20,12 @@ function userId(url: string) {
   return user_id
 }
 
+// Express.js: the power of abstraction and patterns
+// app.get("/", (req,res)=>{})
+// app.get("/client", clientController)
+// app.post("/client", clientController)
+// app.post("/login", loginController)
+
 export default function webInit(db: Database) {
 
   function handleRequest(req: IncomingMessage, res: ServerResponse) {
