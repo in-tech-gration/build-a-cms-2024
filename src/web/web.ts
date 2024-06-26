@@ -49,20 +49,21 @@ export default function webInit(db: Database) {
       return homeController(res);
     }
 
+    // ✅ HANDLE /posts/:id ROUTE 
+    if (typeof pathname === "string" && pathname.startsWith("/posts" )){
+      return postController(pathname,res,db);
+    }
+    
     // 🚧 HANDLE /user/:id ROUTE (PROTECTED)
     if (typeof pathname === "string" && pathname.startsWith(`/user`) ){
       return res.end("PROTECTED");
       return userController(pathname,res);
     }
 
-    // ✅ HANDLE /posts/:id ROUTE 
-    if (typeof pathname === "string" && pathname.startsWith("/posts" )){
-      return postController(pathname,res,db);
-    }
-
     // 🚧 HANDLE /create ROUTE (Displaying the form) (PROTECTED)
     if (typeof pathname === "string" && pathname.startsWith("/create" )){
-
+      return res.end("PROTECTED");
+      
       // HANDLE POST /create
       if ( req.method === "POST"){
         return createPostController(req,res,db);
