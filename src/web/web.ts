@@ -27,37 +27,42 @@ function userId(url: string) {
 // app.post("/login", loginController)
 
 export default function webInit(db: Database) {
+  // ✅ 🚧
 
   function handleRequest(req: IncomingMessage, res: ServerResponse) {
 
+    // ✅ PUBLIC
     if (req.url === "/favicon.ico") {
       return res.end();
     }
     console.log(`Got a ${req.method} request:`, req.url);
 
+    // ✅ PUBLIC
     if (typeof req.url === "undefined") {
       return (errorController(res));
     }
 
     const { pathname } = url.parse(req.url);
 
-    // HANDLE / ROUTE
+    // ✅ HANDLE / ROUTE (PUBLIC)
     if (pathname === "/") {
       return homeController(res);
     }
 
-    // HANDLE /user/:id ROUTE
+    // 🚧 HANDLE /user/:id ROUTE (PROTECTED)
     if (typeof pathname === "string" && pathname.startsWith(`/user`) ){
+      return res.end("PROTECTED");
       return userController(pathname,res);
     }
 
-    // HANDLE /post/:id ROUTE
+    // ✅ HANDLE /posts/:id ROUTE 
     if (typeof pathname === "string" && pathname.startsWith("/posts" )){
       return postController(pathname,res,db);
     }
 
-    // HANDLE /create ROUTE (Displaying the form)
+    // 🚧 HANDLE /create ROUTE (Displaying the form) (PROTECTED)
     if (typeof pathname === "string" && pathname.startsWith("/create" )){
+
       // HANDLE POST /create
       if ( req.method === "POST"){
         return createPostController(req,res,db);
@@ -66,6 +71,7 @@ export default function webInit(db: Database) {
       return formController(res);
     }
 
+    // ✅ ERROR 404 (PUBLIC)
     return errorController(res);
   }
   const server = http.createServer(handleRequest);
