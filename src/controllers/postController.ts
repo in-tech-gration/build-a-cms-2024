@@ -19,7 +19,13 @@ function postController(pathname: string, res: ServerResponse, db: Database) {
       }
       // console.log({ row });
       // Display them
-      let html = "";
+      let html = `
+        <html>
+        <head>
+          <style>html { color-scheme: dark; }</style>
+        </head>
+        <body>
+      `;
       html += `<h1>Our latest 3 posts</h1>`;
       html += `<ul>`;
       row.forEach((entry: any) => {
@@ -29,7 +35,7 @@ function postController(pathname: string, res: ServerResponse, db: Database) {
           </a>
         </li>`
       })
-      html += `</ul>`;
+      html += `</ul></body></html>`;
       return res.end(html);
       // CHALLENGE: Create a show more Posts button
       // CHALLENGE (ADVANCED): Provide a Search for the posts
@@ -47,9 +53,16 @@ function postController(pathname: string, res: ServerResponse, db: Database) {
     console.log({ row });
     // CHALLENGE: Create a Template function: getPostHTML(row);
     res.end(`
-      <h1>${row.title}</h1>
-      <h3>Created at ${new Date(row.created).toLocaleDateString("el-EL")}</h3>
-      <p>${row.content}</p>
+      <html>
+        <head>
+        <style>html { color-scheme: dark; }</style>
+        </head>
+        <body>
+          <h1>${row.title}</h1>
+          <h3>Created at ${new Date(row.created).toLocaleDateString("el-EL")}</h3>
+          <p>${row.content}</p>
+        </body>
+      </html>
     `);
   });
 }
