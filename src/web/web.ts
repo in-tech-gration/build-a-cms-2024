@@ -84,29 +84,17 @@ export default function webInit(db: Database) {
         data += chunk;
       });
       req.on("end", ()=>{
-        // console.log({ data }); // "admin=whatever&password=whatever"
         const parsedData = qs.parse(data);
-        // console.log({ parsedData });
-        // console.log( parsedData.email, parsedData.password );
-        // TODO: Checking user email + password, against our DB
-        // 1) db.get() => SELECT password FROM Users WHERE email=parsedData.email
-        // 2) Database will give us "charles_made_me_do_this"
-        // 3) Compare parsedData.password == "charles_made_me_do_this"
-        // 4) Get the user's data from the Database (email, username, role, etc.)
-        // charles_made_me_do_this
         // ! CAUTION: We should replace this highly unsafe SQL statement with a Prepared Statement (db.prepare)
         const sql = `SELECT * FROM Users WHERE email="${parsedData.email}"`;
-        // console.log("Let's xray the SQL:", sql); 
         db.get(sql, (err:Error,row:any)=>{
           if ( err || !row ){
-            console.log(err);
-            // CHALLENGE: Replace this with a more informative HTML page
-            // Send 200 code and a full valid HTML page using a helper function, e.g. a template helper getPage("user")
+            // CHALLENGE: 
+              // Replace this with a more informative HTML page
+              // Send 200 code and a full valid HTML page using a helper function, e.g. a template helper getPage("user")
             return res.end("Something went wrong");
           }
-          // console.log({ row });
           if ( parsedData.email === row.email && parsedData.password === row.password ){
-            // Display the user data
             return res.end(`Logged in as ${row.username} (role:${row.role})`);
           }
           res.end("Wrong credentials");
@@ -114,12 +102,7 @@ export default function webInit(db: Database) {
 
       });
       
-      // email+password => Is the user authenticated?
-      // Yes => redirect to the page (userController)
-      // No => No accesss
-      
       return; 
-      // return userController(pathname,res);
     }
 
     // 🚧 HANDLE /create ROUTE (Displaying the form) (PROTECTED)
