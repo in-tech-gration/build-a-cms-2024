@@ -94,11 +94,14 @@ export default function webInit(db: Database) {
         // 3) Compare parsedData.password == "charles_made_me_do_this"
         // 4) Get the user's data from the Database (email, username, role, etc.)
         // charles_made_me_do_this
+        // ! CAUTION: We should replace this highly unsafe SQL statement with a Prepared Statement (db.prepare)
         const sql = `SELECT * FROM Users WHERE email="${parsedData.email}"`;
         // console.log("Let's xray the SQL:", sql); 
         db.get(sql, (err:Error,row:any)=>{
           if ( err || !row ){
             console.log(err);
+            // CHALLENGE: Replace this with a more informative HTML page
+            // Send 200 code and a full valid HTML page using a helper function, e.g. a template helper getPage("user")
             return res.end("Something went wrong");
           }
           // console.log({ row });
