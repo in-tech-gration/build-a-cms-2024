@@ -57,7 +57,33 @@ export default function webInit(db: Database) {
     
     // 🚧 HANDLE /user/:id ROUTE (PROTECTED) [GET+POST]
     if (typeof pathname === "string" && pathname.startsWith(`/user`) ){
-      // "admin" : "1234"
+      // Check if a cookie is set
+      // If not, show the Login form
+      // Otherwise server relevant data to the authenticated user
+      const { cookie } = req.headers;
+      if ( cookie ){
+        const cookieObj = qs.parse(cookie);
+        console.log("Cookie:", cookieObj.user_email);
+        if ( cookieObj.user_email ){
+          // Send the user's data
+          const sql = `SELECT * FROM Users WHERE email="${cookieObj.user_email}"`;
+          db.get(sql, (err:Error,row:any)=>{
+            if ( err || !row ){
+              return res.end("Something went wrong");
+            }
+            res.writeHead(200, {
+              "Content-Type": "text/html",
+            })
+            return res.end(`
+              <p>
+                Logged in as ${row.username} (role:${row.role})
+              </p>
+            `);
+          });
+          return;
+        }
+      }
+
       // HANDLE GET:
       if ( req.method === "GET" ){
 
@@ -95,8 +121,24 @@ export default function webInit(db: Database) {
             return res.end("Something went wrong");
           }
           if ( parsedData.email === row.email && parsedData.password === row.password ){
-            return res.end(`Logged in as ${row.username} (role:${row.role})`);
+            // Create a cookie that contains the authentication data
+            const cookie = `user_email=${row.email}; HttpOnly; Path=/`;
+            // Send cookie to the user:
+            res.writeHead(200, {
+              "Content-Type": "text/html",
+              // Setting the cookie headers
+              "x-custom-header": "Hello from intechgration.io",
+              // Cookie: data; options;
+              // data: user_email=ada@lovelace.com
+              "Set-Cookie": cookie
+            })
+            return res.end(`
+              <p>
+                Logged in as ${row.username} (role:${row.role})
+              </p>
+            `);
           }
+          // CHALLENGE: See which correct status code to set here? e.g. 401
           res.end("Wrong credentials");
         });
 
